@@ -1,11 +1,22 @@
-#LOADING DEPENDENCIES 
-import numpy as np 
-import pandas as pd 
-import tensorflow as tf 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Mar 11 11:32:57 2019
+
+@author: rosa-mystica
+"""
+#LOADING DEPENDENCIES
+import numpy as np
+import pandas as pd
+import tensorflow as tf
 import keras
-import matplotlib.pyplot as plt 
+import sklearn
+
 
 class compact:
+    
+    def __init__(self,models):
+        self.models=models
     def model(self,nos_layers,model_type,input_dimi, output_d,hidden_dim, hid_act,out_act,initi,loss,metrics,optimizer, dropout):
         self.nos_layers=nos_layers  #NUMBER OF LAYERS
         self.mode_type=model_type   #SEQUENTIAL / FUNCTIONAL
@@ -19,18 +30,22 @@ class compact:
         self.metrics=metrics        #METRICS LIST
         self.dropout=dropout        #DROPOUT
         self.optimizer=optimizer    #OPTIMIZER 
-        from keras.models import model_type     
-        from keras.layers import Input,Dense
-        models=model_type()         #calling model type
+            
+        from keras.layers import Input,Dense,Dropout
+        if (model_type=='Sequential'):
+            from keras.models import Sequential
+            models=Sequential()         #calling model type
         models.add(Dense(output_dim = hidden_dim, init = initi , activation = hid_act, input_dim = input_dimi)) #first hidden layer
         models.add(Dropout(p=dropout))
                                     # Adding the second hidden layer
-        for i in range(1,nos_layer-1):
+        for i in range(1,nos_layers-1):
             models.add(Dense(output_dim =hidden_dim , init = initi, activation = hid_act))
-            models.add(Droput(p=dropout))
+            models.add(Dropout(p=dropout))
         models.add(Dense(output_dim = output_d, init = initi, activation = out_act))
-
-
+        
+    
+    def detail(self):
+        models.summary()
         
     def fit(X,Y, epochs, batch_size):
         self.X=X
@@ -38,3 +53,5 @@ class compact:
         self.epochs=epochs
         self.batch_size=batch_size
         
+        
+    
