@@ -12,12 +12,11 @@ import tensorflow as tf
 import keras
 import sklearn
 
-
+feed_forward=[]
 class compact:
     
-    def __init__(self,models):
-        self.models=models
-    def model(self,nos_layers,model_type,input_dimi, output_d,hidden_dim, hid_act,out_act,initi,loss,metrics,optimizer, dropout):
+    
+    def model(self,nos_layers,model_type,input_dimi, output_d,hidden_dim, hid_act,out_act,initi,loss,metrics_param,optimizer_fun, dropout):
         self.nos_layers=nos_layers  #NUMBER OF LAYERS
         self.mode_type=model_type   #SEQUENTIAL / FUNCTIONAL
         self.input_dimi=input_dimi  # INPUT DIMENSION
@@ -27,9 +26,9 @@ class compact:
         self.out_act=out_act        #OUTPUT ACTIVATION FUNCTION
         self.initi=initi            #INITAILIZATION
         self.loss=loss              #LOSS FUNCTION
-        self.metrics=metrics        #METRICS LIST
+        self.metrics_param=metrics_param        #METRICS LIST
         self.dropout=dropout        #DROPOUT
-        self.optimizer=optimizer    #OPTIMIZER 
+        self.optimizer_fun=optimizer_fun    #OPTIMIZER 
             
         from keras.layers import Input,Dense,Dropout
         if (model_type=='Sequential'):
@@ -42,16 +41,21 @@ class compact:
             models.add(Dense(output_dim =hidden_dim , init = initi, activation = hid_act))
             models.add(Dropout(p=dropout))
         models.add(Dense(output_dim = output_d, init = initi, activation = out_act))
-        
+        models.compile(optimizer=optimizer_fun,loss=loss,metrics=metrics_param,)
+        feed_forward.append(models)
     
     def detail(self):
-        models.summary()
+        feed_forward[0].summary()
         
-    def fit(X,Y, epochs, batch_size):
+    def fit(self,X,Y, epochs, batch_size):
         self.X=X
         self.Y=Y
         self.epochs=epochs
         self.batch_size=batch_size
+        feed_forward[0].fit(X,Y,batch_size=batch_size,epochs=epochs)
+    def predict(self,X):
+        self.X=X
+        return feed_forward[0].predict(X)
         
         
     
