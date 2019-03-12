@@ -6,7 +6,7 @@ import keras
 import sklearn
 
 feed_forward=[]
-class compact:
+class feedforward:
     
     
     def model(self,nos_layers,model_type,input_dim, output_dim,hidden_dim, hid_act,out_act,init,loss,metrics,optimizer, dropout):
