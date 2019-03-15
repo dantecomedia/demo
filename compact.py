@@ -49,6 +49,9 @@ class feedforward:
     def predict(self,X):
         self.X=X
         return feed_forward[0].predict(X)
+
+class CNN:
+    
         
         
     
