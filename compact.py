@@ -7,8 +7,6 @@ import sklearn
 
 feed_forward=[]
 class feedforward:
-    
-    
     def model(self,nos_layers,model_type,input_dim, output_dim,hidden_dim, hid_act,out_act,kernel_initializer,loss,metrics,optimizer, dropout):
         self.nos_layers=nos_layers  #NUMBER OF LAYERS
         self.mode_type=model_type   #SEQUENTIAL / FUNCTIONAL
@@ -17,7 +15,7 @@ class feedforward:
         self.output_dim=output_dim      #OUTPUT DIMENSION
         self.hid_act=hid_act        #HIDDEN ACTIVATION FUNCTION
         self.out_act=out_act        #OUTPUT ACTIVATION FUNCTION
-        self.kernel_initializer=kernel_initializer         #kernel_kernel_initializerializerAILIZATION
+        self.kernel_initializer=kernel_initializer #INITAILIZATION
         self.loss=loss              #LOSS FUNCTION
         self.metrics=metrics        #METRICS LIST
         self.dropout=dropout        #DROPOUT
@@ -27,13 +25,12 @@ class feedforward:
         if (model_type=='Sequential'):
             from keras.models import Sequential
             models=Sequential()         #calling model type
-        models.add(Dense(output_dim = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim)) #first hidden layer
-        models.add(Dropout(p=dropout))
-                                    # Adding the second hidden layer
-        for i in range(1,nos_layers-1):
-            models.add(Dense(output_dim =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
-            models.add(Dropout(p=dropout))
-        models.add(Dense(output_dim = output_dim, kernel_initializer = kernel_initializer, activation = out_act))
+        models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
+        models.add(Dropout(rate=dropout))   # Adding the second hidden layer
+        for i in range(1,nos_layers-1):     #Adding hidden layers
+            models.add(Dense(units =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
+            models.add(Dropout(rate=dropout))
+        models.add(Dense(units = output_dim, kernel_initializer = kernel_initializer, activation = out_act))
         models.compile(optimizer=optimizer,loss=loss,metrics=metrics)
         feed_forward.append(models)
     
@@ -50,8 +47,38 @@ class feedforward:
         self.X=X
         return feed_forward[0].predict(X)
 
-class CNN:
+#iNTRODUCING ALL THE FEATURES OF THE LAYERS 
+from keras.models import Sequential
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+from keras.layers import Flatten
+from keras.layers import Dense
+general=[]  #storing model as stack
+class compact:
+    def Sequential():
+        from keras.models import Sequential
+        models=Sequential()
+        general.append(models)
+    def Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):  
+        from keras.layers import Conv2D
+        x=general.pop()
+        x.add(Conv2D(filters,kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+        general.append(x)
+    def Conv1D(self,filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):
+        x=general.pop()
+        from keras.layers import Conv1D
+        x.add(Conv1D(filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+        general.append(x)
+    def Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):
+        x=general.pop()
+        x.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+        general.append(x)
+    def MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last'):
+        from keras.layers import MaxPool1D
+        x=general.pop()
+        x.add(MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last'))
+        general.append(x)
     
         
         
-    
+        
