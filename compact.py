@@ -47,6 +47,11 @@ class feedforward:
         self.X=X
         return feed_forward[0].predict(X)
 
+#---------------------CNN MODEL COMPACT-------------------------------
+#class CNN():
+    
+    
+
 #iNTRODUCING ALL THE FEATURES OF THE LAYERS 
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -74,6 +79,7 @@ class compact:
     #-----------for 3D convulation layer---------------------
     def Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):
         x=general.pop()
+        from keras.layers import Conv3D
         x.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
         general.append(x)
     #----------------1D MAXPOOLING LAYER --------------------------
@@ -95,6 +101,25 @@ class compact:
         x=general.pop()
         x.add(MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None))
         general.append(x)
+    
+    #----------------FLATTEN LAYER-----------------------------------
+    def Flatten(data_format=None):
+        from keras.layers import Flatten
+        x=general.pop()
+        x.add(Flatten(data_format=None))
+        general.append(x)
+   
+    def detail(model=None):
+        if model!=None:
+            general[model].summary()
+        else :
+            k=0
+            for i in general:
+                print("MODEL ",k,end="\n")
+                i.summary()
+                k=k+1
+        
+    
     
         
         
