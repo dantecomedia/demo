@@ -55,30 +55,65 @@ from keras.layers import Flatten
 from keras.layers import Dense
 general=[]  #storing model as stack
 class compact:
-    def Sequential():
-        from keras.models import Sequential
-        models=Sequential()
-        general.append(models)
+    def Sequential():    # FOR SEQUENTIAL MODEL
+        from keras.models import Sequential   # CALLING THE SEQUENTIAL KERAS LIBRARY
+        models=Sequential()       #Creating the instance of the sequential class
+        general.append(models)    #Appending the model to the stack
+    #----------for 2D convulational layer----------------------
     def Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):  
-        from keras.layers import Conv2D
+        from keras.layers import Conv2D   
         x=general.pop()
         x.add(Conv2D(filters,kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
         general.append(x)
+    #----------for 1D convulational layer----------------------
     def Conv1D(self,filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):
         x=general.pop()
         from keras.layers import Conv1D
         x.add(Conv1D(filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
         general.append(x)
+    #-----------for 3D convulation layer---------------------
     def Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None):
         x=general.pop()
         x.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
         general.append(x)
+    #----------------1D MAXPOOLING LAYER --------------------------
     def MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last'):
-        from keras.layers import MaxPool1D
+        from keras.layers import MaxPooling1D
         x=general.pop()
         x.add(MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last'))
+        general.append(x)
+    #----------------2D MAXPOOLING LAYER----------------------------
+    def MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None):
+        from keras.layers import MaxPooling2D
+        x=general.pop()
+        x.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None))
+        general.append(x)
+    
+    #-------------------3D MAXPOOLING LAYER--------------------------
+    def MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None):
+        from keras.layers import MaxPooling3D
+        x=general.pop()
+        x.add(MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None))
         general.append(x)
     
         
         
+        
+        
+        
+        
+        
+        
+        
+    
+        
+
+
+#--------COMPACT LAYER VISUALISATION----------------------------------------
+def final_desgin():
+    from keras.utils import plot_model
+    
+    plot_model(model, to_file='model.png')
+    for i in general:
+        print(i)
         
