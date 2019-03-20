@@ -74,10 +74,14 @@ class compact:
         general.append(x)
     #-----------for 3D convulation layer---------------------
     def Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=None):
-        x=general.pop()
         from keras.layers import Conv3D
-        x.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
-        general.append(x)
+        if model!=None:
+            model.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+            return model
+        else:
+            x=general.pop()
+            x.add(Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+            general.append(x)
     #----------------1D MAXPOOLING LAYER --------------------------
     def MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last',model=None):
         from keras.layers import MaxPooling1D
@@ -146,13 +150,15 @@ class compact:
 
         
 #---------------------------CNN STANDALONE COMPACT MODEL------------------------------
-"""class cnn:
-    def model(model_type,*Conv ):
+class cnn:
+    def model(Conv_type,nos_layers,MaxPooling_type,filters,kernel_size, strides=(1, 1), dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model_type='Sequential',pool_size=2, MP_strides=None, padding='valid',data_format=None):
         from keras.models import Sequential
-        if model_type='Sequential':
+        if model_type=='Sequential':
             cnn_model=Sequential()
-            for i in Conv:
-                if i  """
+            if Conv_type=='1D':
+                
+                    
+                
                 
         
         
