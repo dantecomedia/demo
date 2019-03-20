@@ -194,8 +194,8 @@ class compact:
 
         
 #---------------------------CNN STANDALONE COMPACT MODEL------------------------------
+general_cnn_layer=[]
 class cnn:
-    general_cnn_layer=None
     def model(Conv_type,nos_layers,MaxPooling_type,filters,kernel_size, strides=(1, 1), dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model_type='Sequential',pool_size=2, MP_strides=None, padding='valid',data_format=None):
         from keras.models import Sequential
         if model_type=='Sequential':
@@ -214,10 +214,17 @@ class cnn:
                 cnn_model=compact.MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
             
             cnn_model=compact.Flatten(data_format=None,model=cnn_model)
-            general_cnn_layer=cnn_model
+            general_cnn_layer.append(cnn_model)
             
     def compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None):
-        general_cnn_layer=compact.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=general_cnn_layer)
+        x=general_cnn_layer.pop()
+        general_cnn_layer.append(compact.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=x))
+        
+    def fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1):
+        x=general_cnn_layer.pop()
+        general_cnn_layer.append(compact.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=x))
+    
+
         
 
         
