@@ -20,23 +20,23 @@ class feedforward:
         self.metrics=metrics        #METRICS LIST
         self.dropout=dropout        #DROPOUT
         self.optimizer=optimizer    #OPTIMIZER 
-            
+        
         from keras.layers import Input,Dense,Dropout
         if (model_type=='Sequential'):
             from keras.models import Sequential
             models=Sequential()         #calling model type
-        models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
-        models.add(Dropout(rate=dropout))   # Adding the second hidden layer
-        for i in range(1,nos_layers-1):     #Adding hidden layers
-            models.add(Dense(units =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
-            models.add(Dropout(rate=dropout))
-        models.add(Dense(units = output_dim, kernel_initializer = kernel_initializer, activation = out_act))
-        models.compile(optimizer=optimizer,loss=loss,metrics=metrics)
-        feed_forward.append(models)
+            models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
+            models.add(Dropout(rate=dropout))   # Adding the second hidden layer
+            for i in range(1,nos_layers-1):     #Adding hidden layers
+                models.add(Dense(units =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
+                models.add(Dropout(rate=dropout))
+            models.add(Dense(units = output_dim, kernel_initializer = kernel_initializer, activation = out_act))
+            models.compile(optimizer=optimizer,loss=loss,metrics=metrics)
+            feed_forward.append(models)
     
     def detail(self):
         feed_forward[0].summary()
-        
+    
     def fit(self,X,Y, epochs, batch_size):
         self.X=X
         self.Y=Y
@@ -46,7 +46,7 @@ class feedforward:
     def predict(self,X):
         self.X=X
         return feed_forward[0].predict(X)
-
+    
  #iNTRODUCING ALL THE FEATURES OF THE LAYERS 
 from keras.models import Sequential
 from keras.layers import Conv2D
@@ -59,7 +59,7 @@ class compact:
         from keras.models import Sequential   # CALLING THE SEQUENTIAL KERAS LIBRARY
         models=Sequential()       #Creating the instance of the sequential class
         general.append(models)    #Appending the model to the stack
-    def layers()
+        #def layers()
     #----------for 2D convulational layer----------------------
     def Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=None):  
         from keras.layers import Conv2D   
@@ -90,7 +90,7 @@ class compact:
         x=general.pop()
         x.add(MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None))
         general.append(x)
-    
+        
     #-------------------3D MAXPOOLING LAYER--------------------------
     def MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None,model=None):
         from keras.layers import MaxPooling3D
@@ -104,18 +104,13 @@ class compact:
         x=general.pop()
         x.add(Flatten(data_format=None))
         general.append(x)
-   #--------------RNN LAYER---------------------------------------------
+       #--------------RNN LAYER---------------------------------------------
     def RNN(self,cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=None):
         self.model=model
         from keras.layers import RNN
         x=general.pop()
         x.add(RNN(cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False))
         general.append(x)
-    
-    
-    
-    
-    
     #----------------COMPILE FEATURE------------------------------------
     
     def compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=None):
@@ -123,18 +118,18 @@ class compact:
         x=general.pop()
         x.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=None)
         general.append(x)
-   #------------------FIT------------------------------------------------ 
-   def fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=None):
-       from keras.models import Model
-       x=general.pop()
-       x.fit(fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1)
-       general.append(x)
-   def evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None,model=None):
-       x=general.pop()
-       from keras.model import Model
-       x.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None)
-       general.append(x)
-       
+    #------------------FIT------------------------------------------------ 
+    def fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=None):
+        from keras.models import Model
+        x=general.pop()
+        x.fit(fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1))
+        general.append(x)
+    
+    def evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None, model=None):
+        x=general.pop()
+        from keras.model import Model
+        x.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None)
+        general.append(x) 
        
     def detail(model=None):
         if model!=None:
@@ -144,11 +139,11 @@ class compact:
             for i in general:
                 print("MODEL ",k,end="\n")
                 i.summary()
-                k=k+1
+                k=k+1    
+
         
     
-    
-        
+
         
 #---------------------------CNN STANDALONE COMPACT MODEL------------------------------
 """class cnn:
