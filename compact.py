@@ -161,12 +161,12 @@ class compact:
     def fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=None):
         from keras.models import Model
         if model!=None:
-            model.fit(fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1))
+            model.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1)
             return model
         else:
-            x=general.pop()
-            x.fit(fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1))
-            general.append(x)
+            top=general.pop()
+            top.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1)
+            general.append(top)
     
     def evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None, model=None):
         from keras.model import Model
@@ -174,12 +174,12 @@ class compact:
             model.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None)
             return model
         else:
-            x=general.pop()
-            x.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None)
-            general.append(x)
+            top=general.pop()
+            top.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None)
+            general.append(top)
 
        
-    def detail(model=None):
+    def summary(model=None):
         if model!=None:
             general[model].summary()
         else :
@@ -196,35 +196,75 @@ class compact:
 #---------------------------CNN STANDALONE COMPACT MODEL------------------------------
 general_cnn_layer=[]
 class cnn:
-    def model(Conv_type,nos_layers,MaxPooling_type,filters,kernel_size, strides=(1, 1), dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model_type='Sequential',pool_size=2, MP_strides=None, padding='valid',data_format=None):
+    def model(Conv_type,nos_layers,MaxPooling_type,filters,kernel_size, input_shape=None,strides=(1, 1), dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model_type='Sequential',pool_size=2, MP_strides=None, padding='valid',data_format=None):
         from keras.models import Sequential
-        if model_type=='Sequential':
-            cnn_model=Sequential()
-            if Conv_type=='1D':
-                cnn_model=compact.Conv1D(filters, kernel_size, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
-            elif Conv_type=='2D':
-                cnn_model=compact.Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
-            elif Conv_type=='3D':
-                cnn_model=compact.Conv3D(filters, kernel_size, strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
-            if MaxPooling_type=='1D':
-                cnn_model=compact.MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last',model=cnn_model)
-            elif MaxPooling_type=='2D':
-                cnn_model=compact.MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
-            elif MaxPooling_type=='3D':
-                cnn_model=compact.MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
+        if nos_layers==1:
+            if model_type=='Sequential':
+                cnn_model=Sequential()
+                if Conv_type=='1D':
+                    cnn_model=compact.Conv1D(filters, kernel_size, input_shape, strides=1, padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                elif Conv_type=='2D':
+                    cnn_model=compact.Conv2D(filters, kernel_size, input_shape,strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                elif Conv_type=='3D':
+                    cnn_model=compact.Conv3D(filters, kernel_size, input_shape,strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                if MaxPooling_type=='1D':
+                    cnn_model=compact.MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last',model=cnn_model)
+                elif MaxPooling_type=='2D':
+                    cnn_model=compact.MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
+                elif MaxPooling_type=='3D':
+                    cnn_model=compact.MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
+                
+                cnn_model=compact.Flatten(data_format=None,model=cnn_model)
+                general_cnn_layer.append(cnn_model)
+                
+        else:
+            if model_type=='Sequential':
+                cnn_model=Sequential()
+            for i in range(nos_layers):
+                if Conv_type[i]=='1D':
+                    cnn_model=compact.Conv1D(filters[i], kernel_size[i], input_shape,strides=1,padding='valid', data_format='channels_last', dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                    input_shape=None
+                elif Conv_type[i]=='2D':
+                    cnn_model=compact.Conv2D(filters[i], kernel_size[i], input_shape,strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                    input_shape=None
+                elif Conv_type[i]=='3D':
+                    cnn_model=compact.Conv3D(filters[i], kernel_size[i], input_shape,strides=(1, 1, 1), padding='valid', data_format=None, dilation_rate=(1, 1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=cnn_model)
+                    input_shape=None
+                if MaxPooling_type[i]=='1D':
+                    cnn_model=compact.MaxPooling1D(pool_size=2, strides=None, padding='valid', data_format='channels_last',model=cnn_model)
+                elif MaxPooling_type[i]=='2D':
+                    cnn_model=compact.MaxPooling2D(pool_size=(2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
+                elif MaxPooling_type[i]=='3D':
+                    cnn_model=compact.MaxPooling3D(pool_size=(2, 2, 2), strides=None, padding='valid', data_format=None,model=cnn_model)
+                
+                cnn_model=compact.Flatten(data_format=None,model=cnn_model)
+                general_cnn_layer.append(cnn_model)
+                
+                
             
-            cnn_model=compact.Flatten(data_format=None,model=cnn_model)
-            general_cnn_layer.append(cnn_model)
+            
+            
+            
+            
+            
+            
             
     def compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None):
-        x=general_cnn_layer.pop()
-        general_cnn_layer.append(compact.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=x))
+        up=general_cnn_layer.pop()
+        general_cnn_layer.append(compact.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=up))
         
     def fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1):
-        x=general_cnn_layer.pop()
-        general_cnn_layer.append(compact.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=x))
+        up=general_cnn_layer.pop()
+        general_cnn_layer.append(compact.fit(x=None, y=None, batch_size=None, epochs=1, verbose=1, callbacks=None, validation_split=0.0, validation_data=None, shuffle=True, class_weight=None, sample_weight=None, initial_epoch=0, steps_per_epoch=None, validation_steps=None, validation_freq=1,model=up))
     
-
+    def evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None):
+        up=general_cnn_layer.pop()
+        general_cnn_layer.append(compact.evaluate(x=None, y=None, batch_size=None, verbose=1, sample_weight=None, steps=None, callbacks=None, model=up))
+        
+    def summary(model=general_cnn_layer):
+        model.summary()
+        
+    
         
 
         
