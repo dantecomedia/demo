@@ -35,14 +35,18 @@ class feedforward:
             feed_forward.append(models)
     
     def detail(self):
-        feed_forward[0].summary()
+        top=feed_forward.pop()
+        top.summary()
+        feed_forward.append(top)
     
     def fit(self,X,Y, epochs, batch_size):
         self.X=X
         self.Y=Y
         self.epochs=epochs
         self.batch_size=batch_size
-        feed_forward[0].fit(X,Y,batch_size=batch_size,epochs=epochs)
+        top=feed_forward.pop()
+        top.fit(X,Y,batch_size=batch_size,epochs=epochs)
+        feed_forward.append(top)
     def predict(self,X):
         self.X=X
         return feed_forward[0].predict(X)
@@ -54,11 +58,12 @@ from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
 general=[]  #storing model as stack
-class compact:
-    def Sequential():    # FOR SEQUENTIAL MODEL
+class core:
+    def Sequential(self,models=None): 
+        self.models=models# FOR SEQUENTIAL MODEL
         from keras.models import Sequential   # CALLING THE SEQUENTIAL KERAS LIBRARY
         models=Sequential()       #Creating the instance of the sequential class
-        general.append(models)    #Appending the model to the stack
+        print(general.append(models)) #Appending the model to the stack
         #def layers()
     #----------for 2D convulational layer----------------------
     def Conv2D(filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=None):  
@@ -174,7 +179,8 @@ class compact:
             general.append(x)
             
     #--------------------LSTM layer----------------------------------------------
-    def LSTM(units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, implementation=1, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=None,input_shape=None):
+    def LSTM(self,units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, implementation=1, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=None,input_shape=None):
+        self.units=units
         from keras.layers import LSTM
         if model!=None:
             model.add(LSTM(units, activation='tanh', recurrent_activation='hard_sigmoid', use_bias=True, kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', bias_initializer='zeros', unit_forget_bias=True, kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, recurrent_constraint=None, bias_constraint=None, dropout=0.0, recurrent_dropout=0.0, implementation=1, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False))
@@ -265,7 +271,8 @@ class compact:
     
     #----------------COMPILE FEATURE------------------------------------
     
-    def compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=None):
+    def compile(self,optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=None):
+        self.optimizer=optimizer
         from keras.models import Model
         if model!=None:
             model.compile(optimizer, loss=None, metrics=None, loss_weights=None, sample_weight_mode=None, weighted_metrics=None, target_tensors=None,model=None)
@@ -304,12 +311,13 @@ class compact:
             general[model].summary()
         else :
             k=0
-            for i in general:
+            for i in enumerate(general):
                 print("MODEL ",k,end="\n")
                 i.summary()
                 k=k+1    
 
         
+    
     
 
         
