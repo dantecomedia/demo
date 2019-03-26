@@ -806,9 +806,28 @@ class cnn:
 general_rnn_layer=[]      
 class RNN:
     def model(cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=None):
+        self.cell=cell
+        self.return_sequences=return_sequences
+        self.return_state=return_state
+        self.go_backwards=go_backwards
+        self.stateful=stateful
+        self.unroll=unroll
+        self.model=model
+
         from keras.models import Sequential
         if model!=None:
             model=core.RNN(cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=model)
+            return model
+        else:
+            top=general_rnn_layer.pop()
+            general_rnn_layer.append(core.RNN(cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=top))
+            return general_rnn_layer
+
+
+
+
+#--------------------------------------------------------------Building the layers fOR MEGRE ------------------------------
+
         
             
         
