@@ -24,12 +24,19 @@ class feedforward:
         from keras.layers import Input,Dense,Dropout
         if (model_type=='Sequential'):
             from keras.models import Sequential
-            models=Sequential()         #calling model type
-            models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
-            models.add(Dropout(rate=dropout))   # Adding the second hidden layer
-            for i in range(1,nos_layers-1):     #Adding hidden layers
-                models.add(Dense(units =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
-                models.add(Dropout(rate=dropout))
+            models=Sequential()  
+            if isinstance(hidden_dim,list):
+                    models.add(Dense(units = hidden_dim[0], kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
+                    models.add(Dropout(rate=dropout))   # Adding the second hidden layer
+                for i in range(1,len(hidden_dim)):     #Adding hidden layers
+                    models.add(Dense(units =hidden_dim[i], kernel_initializer = kernel_initializer, activation = hid_act))
+                    models.add(Dropout(rate=dropout))
+            else:
+                models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
+                models.add(Dropout(rate=dropout))   # Adding the second hidden layer
+                for i in range(1,nos_layers-1):     #Adding hidden layers
+                    models.add(Dense(units =hidden_dim , kernel_initializer = kernel_initializer, activation = hid_act))
+                    models.add(Dropout(rate=dropout))
             models.add(Dense(units = output_dim, kernel_initializer = kernel_initializer, activation = out_act))
             models.compile(optimizer=optimizer,loss=loss,metrics=metrics)
             feed_forward.append(models)
@@ -65,8 +72,8 @@ class core():
         if models==None:# CALLING THE SEQUENTIAL KERAS LIBRARY
             models=Sequential()       #Creating the instance of the sequential class
             general.append(models)
-            print("APPENDED")
-            print(general[0])
+           # print("APPENDED")
+            #print(general[0])
         return general#Appending the model to the stack
         #def layers()
     #-------------------Dense layer---------------------------
@@ -94,7 +101,7 @@ class core():
         
         
     #----------for 2D convulational layer----------------------
-    def Conv2D(self,filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,model=None):  
+    def Conv2D(self,filters, kernel_size, strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), activation=None, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None,input_shape=None,model=None):  
         self.filters=filters
         self.kernel_size=kernel_size
         self.strides=strides
@@ -109,15 +116,16 @@ class core():
         self.activity_regularizer=activity_regularizer
         self.kernel_constraint=kernel_constraint
         self.bias_constraint=bias_constraint
+        self.input_shape=input_shape
 
         
         from keras.layers import Conv2D
         if model!=None:
-            model.add(Conv2D(filters=filters,kernel_size=kernel_size, strides=strides, padding=padding, data_format=data_format, dilation_rate=dilation_rate, activation=activation, use_bias=use_bias, kernel_initializer=kernel_initializer, bias_initializer=bias_initializer, kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer, kernel_constraint=kernel_constraint, bias_constraint=bias_constraint))
+            model.add(Conv2D(filters=filters,kernel_size=kernel_size, input_shape=input_shape,strides=strides, padding=padding, data_format=data_format, dilation_rate=dilation_rate, activation=activation, use_bias=use_bias, kernel_initializer=kernel_initializer, bias_initializer=bias_initializer, kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer, kernel_constraint=kernel_constraint, bias_constraint=bias_constraint))
             return model
         else:
             x=general.pop()
-            x.add(Conv2D(filters=filters,kernel_size=kernel_size, strides=strides, padding=padding, data_format=data_format, dilation_rate=dilation_rate, activation=activation, use_bias=use_bias, kernel_initializer=kernel_initializer, bias_initializer=bias_initializer, kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer, kernel_constraint=kernel_constraint, bias_constraint=bias_constraint))
+            x.add(Conv2D(filters=filters,kernel_size=kernel_size, input_shape=input_shape, strides=strides, padding=padding, data_format=data_format, dilation_rate=dilation_rate, activation=activation, use_bias=use_bias, kernel_initializer=kernel_initializer, bias_initializer=bias_initializer, kernel_regularizer=kernel_regularizer, bias_regularizer=bias_regularizer, activity_regularizer=activity_regularizer, kernel_constraint=kernel_constraint, bias_constraint=bias_constraint))
             general.append(x)
             
     #----------for 1D convulational layer----------------------
@@ -823,10 +831,6 @@ class RNN:
             general_rnn_layer.append(core.RNN(cell, return_sequences=False, return_state=False, go_backwards=False, stateful=False, unroll=False,model=top))
             return general_rnn_layer
 
-
-
-
-#--------------------------------------------------------------Building the layers fOR MEGRE ------------------------------
 
         
             
