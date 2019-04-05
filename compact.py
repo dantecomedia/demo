@@ -28,9 +28,9 @@ class feedforward:
             if isinstance(hidden_dim,list):
                     models.add(Dense(units = hidden_dim[0], kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
                     models.add(Dropout(rate=dropout))   # Adding the second hidden layer
-                for i in range(1,len(hidden_dim)):     #Adding hidden layers
-                    models.add(Dense(units =hidden_dim[i], kernel_initializer = kernel_initializer, activation = hid_act))
-                    models.add(Dropout(rate=dropout))
+                    for i in range(1,len(hidden_dim)):     #Adding hidden layers
+                        models.add(Dense(units =hidden_dim[i], kernel_initializer = kernel_initializer, activation = hid_act))
+                        models.add(Dropout(rate=dropout))
             else:
                 models.add(Dense(units = hidden_dim, kernel_initializer = kernel_initializer , activation = hid_act, input_dim = input_dim))
                 models.add(Dropout(rate=dropout))   # Adding the second hidden layer
