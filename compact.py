@@ -834,37 +834,9 @@ class RNN:
 
         
             
-        
-       
-
-                
-            
-                
-
-
-                
-                
-                
-  
-
-                
-                    
-                
-                
-        
-        
-        
-        
-        
-        
-    
-        
-
-
 #--------core LAYER VISUALISATION----------------------------------------
 def final_desgin():
     from keras.utils import plot_model
-    
     plot_model(model, to_file='model.png')
     for i in general:
         print(i)
